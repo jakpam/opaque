@@ -50,7 +50,7 @@
 000000CE  6681C744921700    add edi,0x179244
 000000D5  E8600B            call word 0xc38
 000000D8  662EC706BA0D0004  mov dword [cs:0xdba],0x400
-         -0000
+
 000000E2  662E8B3E2105      mov edi,[cs:0x521]
 000000E8  6681C744921B00    add edi,0x1b9244
 000000EF  E8D40B            call word 0xcc6
