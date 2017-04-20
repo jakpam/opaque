@@ -1,4 +1,4 @@
-                            finit
+_0000000:                   finit
                             call word _0000451
                             mov word [_000041D],0x860
                             call word _00003E5
@@ -66,7 +66,7 @@ _000011F:                   push cx
                             add esi,0xb9244
                             mov edi,[_0000421]
                             add edi,0xb4000
-                            call word 0x9f1
+                            call word _00009F1
                             add dword [_0000A6D],byte +0x1
                             add dword [_0000A71],byte +0x5
                             mov esi,[_0000421]
@@ -74,7 +74,7 @@ _000011F:                   push cx
                             mov edi,[_0000421]
                             add edi,0xb4000
                             mov cx,0x1491
-                            call word 0xbdf
+                            call word _0000BDF
                             call word _0000B2E
                             pop cx
                             loop _000011F
@@ -86,7 +86,7 @@ _000017B:                   push cx
                             mov edi,[_0000421]
                             add edi,0xb4000
                             call word 0x116d
-                            call word 0xb1a
+                            call word _0000B1A
                             call word _0000B2E
                             pop cx
                             loop _000017B
@@ -113,7 +113,7 @@ _00001E5:                   push cx
                             mov edi,[_0000421]
                             add edi,0xb4000
                             call word 0x116d
-                            call word 0xb1a
+                            call word _0000B1A
                             call word _0000B2E
                             pop cx
                             loop _00001E5
@@ -197,17 +197,9 @@ _000031E:                   mov ax,0x3
                             mov ax,0x4c00
                             int 0x21
 
-; string
-_0000339: 636F64            arpl [bx+0x64],bp
-_000033C: 65203C            and [gs:si],bh
-_000033F: 2D3E20            sub ax,0x203e
-_0000342: 666964656C5E6275  imul esp,[si+0x65],dword 0x75625e6c
-_000034A: 7463              jz 0x3af
-_000034C: 686572            push word 0x7265
-_000034F: 732E              jnc 0x37f
-_0000351: 0A0D              or cl,[di]
-_0000353: 24
-; varai:les ?
+;code <-> fidel^butchers.
+_0000339: 636F6465203C2D3E20666964656C5E62757463
+_000034C: 686572732E0A0D24
 
 ; VSYNC
 _0000354:                   mov edx,0x000003da
@@ -237,7 +229,7 @@ _000036E:                   push ds
 _0000378:                   smsw ax
                             test ax,0x1
                             jz _0000386
-                            mov dx,0x5a5 ; _00004A5
+                            mov dx,_00004A5
                             call word _0000365
 _0000386:                   xor eax,eax
                             xor ebx,ebx
@@ -284,7 +276,7 @@ _00003E5:                   mov ax,0x900
                             call word far [_000047D]
                             cmp ax,0x1
                             jz _00003FD
-                            mov dx,0x598
+                            mov dx,_0000498
                             call word _0000365
 _00003FD:                   push dx
                             mov dx,_00004B3
@@ -312,7 +304,7 @@ _0000425:                   mov ax,0xd00
                             call word far [_000047D]
                             cmp ax,0x1
                             jz _000044A
-                            mov dx,0x5a4
+                            mov dx,_00004a4
                             call word _0000365
 _000044A:                   mov dx,_00004C0
                             call word _000036E
@@ -322,7 +314,7 @@ _0000451:                   mov ax,0x4300
                             int 0x2f
                             cmp al,0x80
                             jz _0000460
-                            mov dx,0x581 ; _0000481
+                            mov dx,_0000481
                             call word _0000365
 _0000460:                   mov ax,0x4310
                             int 0x2f
@@ -334,21 +326,24 @@ _0000460:                   mov ax,0x4310
                             call word far [_000047D]
                             ret
 
-// 0x57d
 _000047D: dw 0000
-// 0x57f
 _000047F: dw 0000
 
 ; Where:s XMS driver?!
 _0000480: 5768657265277320584D53206472697665723F210A0D24
 ;_0000481: 5768657265277320584D53206472697665723F210A0D24
+
 ; More :MS!
 _0000498: 4D6F726520584D53210A0D2424
+
 ; V86 e:ror!
-_00004A5: 563836206572726F72210A0D2424
+_00004A4: 563836206572726F72210A0D2424
+;_00004A5: 563836206572726F72210A0D2424
+
 ;Malloc:OK.
 _00004B2: 4D616C6C6F63204F4B2E0A0D2424
 ;_00004B3: 4D616C6C6F63204F4B2E0A0D2424
+
 ;Triped:into flatmode
 _00004C0: 54726970656420696E746F20666C61746D6F64652E2E2E0A0D24
 ;_00004C1: 54726970656420696E746F20666C61746D6F64652E2E2E0A0D24
@@ -479,8 +474,8 @@ _000062B:                   mov [edi],eax
                             out dx,ax
                             mov ax,0xe317
                             out dx,ax
-                            call word 0x7fd
-                            call word 0x745
+                            call word _00007FD
+                            call word _0000745
                             ret
 
 _000064D:                   mov eax,0x0
@@ -498,7 +493,7 @@ _0000659:                   push eax
                             xor ebx,ebx
                             mov ax,cs
                             shl eax,byte 0x4
-                            mov bx,0x945
+                            mov bx,_0000845 ;0x945
                             add eax,ebx
                             pop ebx
                             add ebx,eax
@@ -552,196 +547,139 @@ _000071B:                   or eax,ecx
                             jnz word _0000653
                             ret
 
-_0000745: 66B900010000      mov ecx,0x100
-_000074B: 6633F6            xor esi,esi
-_000074E: 8CCE              mov si,cs
-_0000750: 66C1E604          shl esi,byte 0x4
-_0000754: 6633DB            xor ebx,ebx
-_0000757: BB781C            mov bx,0x1c78
-_000075A: 6603F3            add esi,ebx
-_000075D: 6633DB            xor ebx,ebx
-_0000760: 662E891EF108      mov [_00007F1],ebx
-_0000766: 2EDB06F108        fild dword [_00007F1]
-_000076B: 2ED836F508        fdiv dword [_00007F5]
-_0000770: 2EDB1EF108        fistp dword [_00007F1]
-_0000775: 662EA1F108        mov eax,[_00007F1]
-_000077A: 66C1E808          shr eax,byte 0x8
-_000077E: 66678906          mov [esi],eax
-_0000782: 662EA1F108        mov eax,[_00007F1]
-_0000787: 6625FF000000      and eax,0xff
-_000078D: 66C1E006          shl eax,byte 0x6
-_0000791: 66C1E808          shr eax,byte 0x8
-_0000795: 6667898600080000  mov [esi+0x800],eax
-_000079D: 662E891EF108      mov [_00007F1],ebx
-_00007A3: 2EDB06F108        fild dword [_00007F1]
-_00007A8: 2ED836F908        fdiv dword [_00007F9]
-_00007AD: 2EDB1EF108        fistp dword [_00007F1]
-_00007B2: 662EA1F108        mov eax,[_00007F1]
-_00007B7: 66C1E808          shr eax,byte 0x8
-_00007BB: 6667898600040000  mov [esi+0x400],eax
-_00007C3: 662EA1F108        mov eax,[_00007F1]
-_00007C8: 6625FF000000      and eax,0xff
-_00007CE: 66C1E006          shl eax,byte 0x6
-_00007D2: 66C1E808          shr eax,byte 0x8
-_00007D6: 66678986000C0000  mov [esi+0xc00],eax
-_00007DE: 6683C604          add esi,byte +0x4
-_00007E2: 6681C300010000    add ebx,0x100
-_00007E9: E202              loop 0x7ed
-_00007EB: EB03              jmp short 0x7f0
-_00007ED: E970FF            jmp word 0x760
-_00007F0: C3                ret
+_0000745:                   mov ecx,0x100
+                            xor esi,esi
+                            mov si,cs
+                            shl esi,byte 0x4
+                            xor ebx,ebx
+                            mov bx,0x1c78
+                            add esi,ebx
+                            xor ebx,ebx
+_0000760:                   mov [_00007F1],ebx
+                            fild dword [_00007F1]
+                            fdiv dword [_00007F5]
+                            fistp dword [_00007F1]
+                            mov eax,[_00007F1]
+                            shr eax,byte 0x8
+                            mov [esi],eax
+                            mov eax,[_00007F1]
+                            and eax,0xff
+                            shl eax,byte 0x6
+                            shr eax,byte 0x8
+                            mov [esi+0x800],eax
+                            mov [_00007F1],ebx
+                            fild dword [_00007F1]
+                            fdiv dword [_00007F9]
+                            fistp dword [_00007F1]
+                            mov eax,[_00007F1]
+                            shr eax,byte 0x8
+                            mov [esi+0x400],eax
+                            mov eax,[_00007F1]
+                            and eax,0xff
+                            shl eax,byte 0x6
+                            shr eax,byte 0x8
+                            mov [esi+0xc00],eax
+                            add esi,byte +0x4
+                            add ebx,0x100
+                            loop _00007ED
+                            jmp short _00007F0
+_00007ED:                   jmp word _0000760
+_00007F0:                   ret
 
-_00007F1: 0000              add [bx+si],al
-_00007F3: 0000              add [bx+si],al
-_00007F5: 66661242CD        o32 adc al,[bp+si-0x33]
-_00007FA: CC                int3
-_00007FB: AA                stosb
-_00007FC: 42                inc dx
-_00007FD: 66B900010000      mov ecx,0x100
-_0000803: 6633C0            xor eax,eax
-_0000806: 66BAC8030000      mov edx,0x3c8
-_000080C: EE                out dx,al
-_000080D: 6642              inc edx
-_000080F: 6633DB            xor ebx,ebx
+;variables
+_00007F1: 00000000
+_00007F5: 66661242
+_00007F9: CDCCAA42
 
-_0000812: 668BC3            mov eax,ebx
-_0000815: 6625E0000000      and eax,0xe0
-_000081B: 66C1E805          shr eax,byte 0x5
-_000081F: 666BC009          imul eax,eax,byte +0x9
-_0000823: EE                out dx,al
-_0000824: 668BC3            mov eax,ebx
-_0000827: 6683E01C          and eax,byte +0x1c
-_000082B: 66C1E802          shr eax,byte 0x2
-_000082F: 666BC009          imul eax,eax,byte +0x9
-_0000833: EE                out dx,al
-_0000834: 668BC3            mov eax,ebx
-_0000837: 6683E003          and eax,byte +0x3
-_000083B: 666BC015          imul eax,eax,byte +0x15
-_000083F: EE                out dx,al
-_0000840: 6643              inc ebx
-_0000842: E2CE              loop 0x812
-_0000844: C3                ret
+_00007FD:                   mov ecx,0x100
+                            xor eax,eax
+                            mov edx,0x3c8
+                            out dx,al
+                            inc edx
+                            xor ebx,ebx
+_0000812:                   mov eax,ebx
+                            and eax,0xe0
+                            shr eax,byte 0x5
+                            imul eax,eax,byte +0x9
+                            out dx,al
+                            mov eax,ebx
+                            and eax,byte +0x1c
+                            shr eax,byte 0x2
+                            imul eax,eax,byte +0x9
+                            out dx,al
+                            mov eax,ebx
+                            and eax,byte +0x3
+                            imul eax,eax,byte +0x15
+                            out dx,al
+                            inc ebx
+                            loop _0000812
+                            ret
 
-_0000845: 0100              add [bx+si],ax
-_0000847: 0000              add [bx+si],al
-_0000849: 2100              and [bx+si],ax
-_000084B: 0000              add [bx+si],al
-_000084D: 0900              or [bx+si],ax
-_000084F: 0000              add [bx+si],al
-_0000851: 2900              sub [bx+si],ax
-_0000853: 0000              add [bx+si],al
-_0000855: 0300              add ax,[bx+si]
-_0000857: 0000              add [bx+si],al
-_0000859: 2300              and ax,[bx+si]
-_000085B: 0000              add [bx+si],al
-_000085D: 0B00              or ax,[bx+si]
-_000085F: 0000              add [bx+si],al
-_0000861: 2B00              sub ax,[bx+si]
-_0000863: 0000              add [bx+si],al
-_0000865: 3100              xor [bx+si],ax
-_0000867: 0000              add [bx+si],al
-_0000869: 1100              adc [bx+si],ax
-_000086B: 0000              add [bx+si],al
-_000086D: 3900              cmp [bx+si],ax
-_000086F: 0000              add [bx+si],al
-_0000871: 1900              sbb [bx+si],ax
-_0000873: 0000              add [bx+si],al
-_0000875: 3300              xor ax,[bx+si]
-_0000877: 0000              add [bx+si],al
-_0000879: 1300              adc ax,[bx+si]
-_000087B: 0000              add [bx+si],al
-_000087D: 3B00              cmp ax,[bx+si]
-_000087F: 0000              add [bx+si],al
-_0000881: 1B00              sbb ax,[bx+si]
-_0000883: 0000              add [bx+si],al
-_0000885: 0D0000            or ax,0x0
-_0000888: 002D              add [di],ch
-_000088A: 0000              add [bx+si],al
-_000088C: 0005              add [di],al
-_000088E: 0000              add [bx+si],al
-_0000890: 0025              add [di],ah
-_0000892: 0000              add [bx+si],al
-_0000894: 000F              add [bx],cl
-_0000896: 0000              add [bx+si],al
-_0000898: 002F              add [bx],ch
-_000089A: 0000              add [bx+si],al
-_000089C: 0007              add [bx],al
-_000089E: 0000              add [bx+si],al
-_00008A0: 0027              add [bx],ah
-_00008A2: 0000              add [bx+si],al
-_00008A4: 003D              add [di],bh
-_00008A6: 0000              add [bx+si],al
-_00008A8: 001D              add [di],bl
-_00008AA: 0000              add [bx+si],al
-_00008AC: 0035              add [di],dh
-_00008AE: 0000              add [bx+si],al
-_00008B0: 0015              add [di],dl
-_00008B2: 0000              add [bx+si],al
-_00008B4: 003F              add [bx],bh
-_00008B6: 0000              add [bx+si],al
-_00008B8: 001F              add [bx],bl
-_00008BA: 0000              add [bx+si],al
-_00008BC: 0037              add [bx],dh
-_00008BE: 0000              add [bx+si],al
-_00008C0: 0017              add [bx],dl
-_00008C2: 0000              add [bx+si],al
-_00008C4: 0004              add [si],al
-_00008C6: 0000              add [bx+si],al
-_00008C8: 0024              add [si],ah
-_00008CA: 0000              add [bx+si],al
-_00008CC: 000C              add [si],cl
-_00008CE: 0000              add [bx+si],al
-_00008D0: 002C              add [si],ch
-_00008D2: 0000              add [bx+si],al
-_00008D4: 0002              add [bp+si],al
-_00008D6: 0000              add [bx+si],al
-_00008D8: 0022              add [bp+si],ah
-_00008DA: 0000              add [bx+si],al
-_00008DC: 000A              add [bp+si],cl
-_00008DE: 0000              add [bx+si],al
-_00008E0: 002A              add [bp+si],ch
-_00008E2: 0000              add [bx+si],al
-_00008E4: 0034              add [si],dh
-_00008E6: 0000              add [bx+si],al
-_00008E8: 0014              add [si],dl
-_00008EA: 0000              add [bx+si],al
-_00008EC: 003C              add [si],bh
-_00008EE: 0000              add [bx+si],al
-_00008F0: 001C              add [si],bl
-_00008F2: 0000              add [bx+si],al
-_00008F4: 0032              add [bp+si],dh
-_00008F6: 0000              add [bx+si],al
-_00008F8: 0012              add [bp+si],dl
-_00008FA: 0000              add [bx+si],al
-_00008FC: 003A              add [bp+si],bh
-_00008FE: 0000              add [bx+si],al
-_0000900: 001A              add [bp+si],bl
-_0000902: 0000              add [bx+si],al
-_0000904: 0010              add [bx+si],dl
-_0000906: 0000              add [bx+si],al
-_0000908: 0030              add [bx+si],dh
-_000090A: 0000              add [bx+si],al
-_000090C: 0008              add [bx+si],cl
-_000090E: 0000              add [bx+si],al
-_0000910: 0028              add [bx+si],ch
-_0000912: 0000              add [bx+si],al
-_0000914: 000E0000          add [0x0],cl
-_0000918: 002E0000          add [0x0],ch
-_000091C: 00060000          add [0x0],al
-_0000920: 00260000          add [0x0],ah
-_0000924: 004000            add [bx+si+0x0],al
-_0000927: 0000              add [bx+si],al
-_0000929: 2000              and [bx+si],al
-_000092B: 0000              add [bx+si],al
-_000092D: 3800              cmp [bx+si],al
-_000092F: 0000              add [bx+si],al
-_0000931: 1800              sbb [bx+si],al
-_0000933: 0000              add [bx+si],al
-_0000935: 3E0000            add [ds:bx+si],al
-_0000938: 001E0000          add [0x0],bl
-_000093C: 00360000          add [0x0],dh
-_0000940: 00160000          add [0x0],dl
-_0000944: 00
+_0000845: 01000000
+          21000000
+          09000000
+          29000000
+          03000000
+          23000000
+          0B000000
+          2B000000
+          31000000
+          11000000
+          39000000
+          19000000
+          33000000
+          13000000
+          3B000000
+          1B000000
+          0D000000
+          2D000000
+          05000000
+          25000000
+          0F000000
+          2F000000
+          07000000
+          27000000
+          3D000000
+          1D000000
+          35000000
+          15000000
+          3F000000
+          1F000000
+          37000000
+          17000000
+          04000000
+          24000000
+          0C000000
+          2C000000
+          02000000
+          22000000
+          0A000000
+          2A000000
+          34000000
+          14000000
+          3C000000
+          00000000
+          1C000000
+          32000000
+          12000000
+          3A000000
+          1A000000
+          10000000
+          30000000
+          08000000
+          28000000
+          0E000000
+          2E000000
+          06000000
+          26000000
+          40000000
+          20000000
+          38000000
+          18000000
+          3E000000
+          1E000000
+          36000000
+          16000000
 
 _0000945:                   mov cx,0x03
 _0000948:                   push cx
@@ -807,56 +745,52 @@ _00009E0:                   pop edi
 _00009ED:                   jmp word _0000948
 _00009F0:                   ret
 
-_00009F1: 2EDB066D0B        fild dword [_0000A6D]
-_00009F6: 2ED80E790B        fmul dword [_0000A79]
-_00009FB: D9FB              fsincos
-_00009FD: 2EDA0E710B        fimul dword [_0000A71]
-_0000A02: 2EDF1E5C0B        fistp word [_0000A5C]
-_0000A07: 2EDA0E710B        fimul dword [_0000A71]
-_0000A0C: 2EDF1E580B        fistp word [_0000A58]
-_0000A11: 2EDB066D0B        fild dword [_0000A6D]
-_0000A16: 2ED806750B        fadd dword [_0000A75]
-_0000A1B: 2ED80E790B        fmul dword [_0000A79]
-_0000A20: D9FB              fsincos
-_0000A22: 2EDA0E710B        fimul dword [_0000A71]
-_0000A27: 2EDF1E680B        fistp word [_0000A68]
-_0000A2C: 2EDA0E710B        fimul dword [_0000A71]
-_0000A31: 2EDF1E640B        fistp word [_0000A64]
-_0000A36: B94100            mov cx,0x41
-_0000A39: B83C2C            mov ax,0x2c3c
-_0000A3C: BB9C05            mov bx,0x59c
-_0000A3F: BA5100            mov dx,0x51
-_0000A42: 50                push ax
-_0000A43: 53                push bx
-_0000A44: 50                push ax
-_0000A45: 53                push bx
-_0000A46: 8ADC              mov bl,ah
-_0000A48: 66678B049E        mov eax,[dword esi+ebx*4]
-_0000A4D: 66678907          mov [edi],eax
-_0000A51: 6683C704          add edi,byte +0x4
-_0000A55: 5B                pop bx
-_0000A56: 58                pop ax
-_0000A57: 051818            add ax,0x1818
-_0000A5A: 81C31818          add bx,0x1818
-_0000A5E: 4A                dec dx
-_0000A5F: 75E3              jnz 0xa44
-_0000A61: 5B                pop bx
-_0000A62: 58                pop ax
-_0000A63: 051818            add ax,0x1818
-_0000A66: 81C31818          add bx,0x1818
-_0000A6A: E2D3              loop 0xa3f
-_0000A6C: C3                ret
+_00009F1:                   fild dword [_0000A6D]
+                            fmul dword [_0000A79]
+                            fsincos
+                            fimul dword [_0000A71]
+                            fistp word [_0000A5A + 2]
+                            fimul dword [_0000A71]
+                            fistp word [_0000A57 + 1]
+                            fild dword [_0000A6D]
+                            fadd dword [_0000A75]
+                            fmul dword [_0000A79]
+                            fsincos
+                            fimul dword [_0000A71]
+                            fistp word [_0000A66 + 2]
+                            fimul dword [_0000A71]
+                            fistp word [_0000A63 + 1]
+                            mov cx,0x41
+                            mov ax,0x2c3c
+                            mov bx,0x59c
+_0000A3F:                   mov dx,0x51
+                            push ax
+                            push bx
+_0000A44:                   push ax
+                            push bx
+                            mov bl,ah
+                            mov eax,[dword esi+ebx*4]
+                            mov [edi],eax
+                            add edi,byte +0x4
+                            pop bx
+                            pop ax
+_0000A57:                   add ax,0x1818
+_0000A5A:                   add bx,0x1818
+                            dec dx
+                            jnz _0000A44
+                            pop bx
+                            pop ax
+_0000A63:                   add ax,0x1818
+_0000A66:                   add bx,0x1818
+                            loop _0000A3F
+                            ret
 
-_0000A6D: 0000              add [bx+si],al
-_0000A6F: 0000              add [bx+si],al
-_0000A71: 800000            add byte [bx+si],0x0
-_0000A74: 0000              add [bx+si],al
-_0000A76: 008042DB          add [bx+si-0x24be],al
-_0000A7A: 0F                db 0x0f
-_0000A7B: C9                leave
-_0000A7C: 3C
+_0000A6D: 00000000
+_0000A71: 80000000
+_0000A75: 00008042
+_0000A79: DB0FC93C
 
-_0000A7D                    mov ch,0xA4
+_0000A7D:                   mov ch,0xA4
 _0000A7F:                   mov eax,0x1
                             mov cl,0x20
 _0000A87:                   xor edx,edx
@@ -882,7 +816,7 @@ _0000AB1:                   mov ax,0x13
                             push ds
                             push cs
                             pop ds
-                            mov dx,0xc07
+                            mov dx,_0000B07 ;0xc07
                             mov ax,0x900
                             int 0x21
                             pop ds
@@ -907,6 +841,7 @@ _0000AE8:                   mov [edi],ebx
                             xor al,al
                             ret
 
+;opaque
 _0000B07: 0A0D              or cl,[di]
 _0000B09: 0A0D              or cl,[di]
 _0000B0B: 0A0D              or cl,[di]
@@ -914,37 +849,37 @@ _0000B0D: 204F70            and [bx+0x70],cl
 _0000B10: 61                popaw
 _0000B11: 7175              jno 0xb88
 _0000B13: 652E2E2E0A0D      or cl,[cs:di]
-_0000B19: 24D9              and al,0xd9
-_0000B1B: E82ED8            call word 0xe34c
-_0000B1E: 06                push es
-_0000B1F: 011C              add [si],bx
-_0000B21: 2ED91E011C        fstp dword [_0001B01]
-_0000B26: 662E8306151C01    add dword [_0001B15],byte +0x1
-_0000B2D: C3                ret
+_0000B19: 24
 
-_0000B2E: 662E8B362105      mov esi,[_0000421]
-_0000B34: 6681C600400B00    add esi,0xb4000
-_0000B3B: 662E8B3E2105      mov edi,[_0000421]
-_0000B41: 6681C700000500    add edi,0x50000
-_0000B48: E8FAFD            call word _0000945
-_0000B4B: 662E8B362105      mov esi,[_0000421]
-_0000B51: 6681C600000500    add esi,0x50000
-_0000B58: 662E8B3E2105      mov edi,[_0000421]
-_0000B5E: 6683C700          add edi,byte +0x0
-_0000B62: 66B900400100      mov ecx,0x14000
-_0000B68: E83400            call word _0000B9F
-_0000B6B: 662E8B362105      mov esi,[_0000421]
-_0000B71: 6683C600          add esi,byte +0x0
-_0000B75: 662E8B3E2105      mov edi,[_0000421]
-_0000B7B: 6681C700000A00    add edi,0xa0000
-_0000B82: E8C8FA            call word _000064D
-_0000B85: 662E8B362105      mov esi,[_0000421]
-_0000B8B: 6681C600000A00    add esi,0xa0000
-_0000B92: E846F9            call word _00004DB
-_0000B95: B80001            mov ax,0x100
-_0000B98: CD16              int 0x16
-_0000B9A: 0F8580F7          jnz word _000031E
-_0000B9E: C3                ret
+_0000B1A:                   fld1
+                            fadd dword [_0001B01]
+                            fstp dword [_0001B01]
+                            add dword [_0001B15],byte +0x1
+                            ret
+
+_0000B2E:                   mov esi,[_0000421]
+                            add esi,0xb4000
+                            mov edi,[_0000421]
+                            add edi,0x50000
+                            call word _0000945
+                            mov esi,[_0000421]
+                            add esi,0x50000
+                            mov edi,[_0000421]
+                            add edi,byte +0x0
+                            mov ecx,0x14000
+                            call word _0000B9F
+                            mov esi,[_0000421]
+                            add esi,byte +0x0
+                            mov edi,[_0000421]
+                            add edi,0xa0000
+                            call word _000064D
+                            mov esi,[_0000421]
+                            add esi,0xa0000
+                            call word _00004DB
+                            mov ax,0x100
+                            int 0x16
+                            jnz word _000031E
+                            ret
 
 _0000B9F:                   xor ax,ax
                             xor bx,bx
@@ -975,13 +910,13 @@ _0000BA3:                   mov al,[esi]
                             jnz _0000BA3
                             ret
 
-_0000BDF: 6667833EFF        cmp dword [esi],byte -0x1
-_0000BE4: 7508              jnz 0xbee
-_0000BE6: 6667C70700000000  mov dword [edi],0x0
-_0000BEE: 6683C604          add esi,byte +0x4
-_0000BF2: 6683C704          add edi,byte +0x4
-_0000BF6: E2E7              loop 0xbdf
-_0000BF8: C3                ret
+_0000BDF:                   cmp dword [esi],byte -0x1
+                            jnz _0000BEE
+                            mov dword [edi],0x0
+_0000BEE:                   add esi,byte +0x4
+                            add edi,byte +0x4
+                            loop _0000BDF
+                            ret
 
 _0000BF9:                   mov cx,0x20
 _0000BFC:                   push cx
@@ -1270,125 +1205,122 @@ _0000F08:                   fld dword [_0001B35]
 
 ;                            ret
 
-_0000F51: 2EDB06151C        fild dword [_0001B15]
-_0000F56: 2ED80EED1B        fmul dword [_0001AED]
-_0000F5B: D9FB              fsincos
-_0000F5D: 67D94604          fld dword [esi+0x4]
-_0000F61: D8C9              fmul st1
-_0000F63: 67D906            fld dword [esi]
-_0000F66: D8CB              fmul st3
-_0000F68: DEE9              fsubp st1
-_0000F6A: 67D94604          fld dword [esi+0x4]
-_0000F6E: D8CB              fmul st3
-_0000F70: 67D906            fld dword [esi]
-_0000F73: D8CB              fmul st3
-_0000F75: DEC1              faddp st1
-_0000F77: 2ED91E491C        fstp dword [_0001B49]
-_0000F7C: 2ED91E4D1C        fstp dword [_0001B4D]
-_0000F81: 2ED91E6B1C        fstp dword [_0001B6B]
-_0000F86: 2ED91E6B1C        fstp dword [_0001B6B]
-_0000F8B: 66678B4608        mov eax,[esi+0x8]
-_0000F90: 662EA3511C        mov [_0001B51],eax
-_0000F95: C3                ret
+_0000F51:                   fild dword [_0001B15]
+                            fmul dword [_0001AED]
+                            fsincos
+                            fld dword [esi+0x4]
+                            fmul st1
+                            fld dword [esi]
+                            fmul st3
+                            fsubp st1
+                            fld dword [esi+0x4]
+                            fmul st3
+                            fld dword [esi]
+                            fmul st3
+                            faddp st1
+                            fstp dword [_0001B49]
+                            fstp dword [_0001B4D]
+                            fstp dword [_0001B6B]
+                            fstp dword [_0001B6B]
+                            mov eax,[esi+0x8]
+                            mov [_0001B51],eax
+                            ret
 
-_0000F96: 2E8B2E691C        mov bp,[_0001B69]
-_0000F9B: 2E8B4600          mov ax,[cs:bp+0x0]
-_0000F9F: 2E8B5E02          mov bx,[cs:bp+0x2]
-_0000FA3: 3D430E            cmp ax,0xe43
-_0000FA6: 7509              jnz 0xfb1
-_0000FA8: 6667C70700000000  mov dword [edi],0x0
-_0000FB0: C3                ret
-
-_0000FB1: 3D450E            cmp ax,0xe45
-_0000FB4: 0F85B600          jnz word 0x106e
-_0000FB8: 2ED906651C        fld dword [_0001B65]
-_0000FBD: 2ED80E491C        fmul dword [_0001B49]
-_0000FC2: 2ED916591C        fst dword [_0001B59]
-_0000FC7: 2ED806F91B        fadd dword [_0001AF9]
-_0000FCC: 2EDF1E551C        fistp word [_0001B55]
-_0000FD1: 2ED906651C        fld dword [_0001B65]
-_0000FD6: 2ED80E511C        fmul dword [_0001B51]
-_0000FDB: 2ED9165D1C        fst dword [_0001B5D]
-_0000FE0: 2ED806011C        fadd dword [_0001B01]
-_0000FE5: 2EDF1E571C        fistp word [_0001B57]
-_0000FEA: 2E8A26571C        mov ah,[_0001B57]
-_0000FEF: 2EA0551C          mov al,[_0001B55]
-_0000FF3: 660FB7C0          movzx eax,ax
-_0000FF7: 66C1E002          shl eax,byte 0x2
-_0000FFB: 662E03062105      add eax,[_0000421]
-_0001001: 662E034704        add eax,[cs:bx+0x4]
-_0001006: 2ED906591C        fld dword [_0001B59]
-_000100B: D8C8              fmul st0
-_000100D: 2ED9065D1C        fld dword [_0001B5D]
-_0001012: D8C8              fmul st0
-_0001014: DEC1              faddp st1
-_0001016: 2ED906651C        fld dword [_0001B65]
-_000101B: 2ED80E4D1C        fmul dword [_0001B4D]
-_0001020: D8C8              fmul st0
-_0001022: DEC1              faddp st1
-_0001024: D9FA              fsqrt
-_0001026: 2ED80EF51B        fmul dword [_0001AF5]
-_000102B: 2EDB1E591C        fistp dword [_0001B59]
-_0001030: 66670FB610        movzx edx,byte [eax]
-_0001035: 662E2B16591C      sub edx,[_0001B59]
-_000103B: 7303              jnc 0x1040
-_000103D: BA0000            mov dx,0x0
-_0001040: 678817            mov [edi],dl
-_0001043: 66670FB65001      movzx edx,byte [eax+0x1]
-_0001049: 662E2B16591C      sub edx,[_0001B59]
-_000104F: 7303              jnc 0x1054
-_0001051: BA0000            mov dx,0x0
-_0001054: 67885701          mov [edi+0x1],dl
-_0001058: 66670FB65002      movzx edx,byte [eax+0x2]
-_000105E: 662E2B16591C      sub edx,[_0001B59]
-_0001064: 7303              jnc 0x1069
-_0001066: BA0000            mov dx,0x0
-_0001069: 67885702          mov [edi+0x2],dl
-_000106D: C3                ret
-
-_000106E: 3D830E            cmp ax,0xe83
-_0001071: 7550              jnz 0x10c3
-_0001073: 2ED906651C        fld dword [_0001B65]
-_0001078: 2ED80E491C        fmul dword [_0001B49]
-_000107D: 2ED806F91B        fadd dword [_0001AF9]
-_0001082: 2ED827            fsub dword [cs:bx]
-_0001085: 2EDF1E551C        fistp word [_0001B55]
-_000108A: 2ED906651C        fld dword [_0001B65]
-_000108F: 2ED80E4D1C        fmul dword [_0001B4D]
-_0001094: 2ED806FD1B        fadd dword [_0001AFD]
-_0001099: 2EDF1E571C        fistp word [_0001B57]
-_000109E: 2E8A26571C        mov ah,[_0001B57]
-_00010A3: 2EA0551C          mov al,[_0001B55]
-_00010A7: 660FB7C0          movzx eax,ax
-_00010AB: 66C1E002          shl eax,byte 0x2
-_00010AF: 662E03062105      add eax,[_0000421]
-_00010B5: 662E03470C        add eax,[cs:bx+0xc]
-_00010BA: 66678B00          mov eax,[eax]
-_00010BE: 66678907          mov [edi],eax
-_00010C2: C3                ret
-
-_00010C3: 3D560F            cmp ax,0xf56
-_00010C6: 7554              jnz 0x111c
-_00010C8: 2ED906651C        fld dword [_0001B65]
-_00010CD: 2ED80E491C        fmul dword [_0001B49]
-_00010D2: 2ED806F91B        fadd dword [_0001AF9]
-_00010D7: 2ED827            fsub dword [cs:bx]
-_00010DA: 2EDF1E551C        fistp word [_0001B55]
-_00010DF: 2ED906651C        fld dword [_0001B65]
-_00010E4: 2ED80E4D1C        fmul dword [_0001B4D]
-_00010E9: 2ED806FD1B        fadd dword [_0001AFD]
-_00010EE: 2ED86704          fsub dword [cs:bx+0x4]
-_00010F2: 2EDF1E571C        fistp word [_0001B57]
-_00010F7: 2E8A26571C        mov ah,[_0001B57]
-_00010FC: 2EA0551C          mov al,[_0001B55]
-_0001100: 660FB7C0          movzx eax,ax
-_0001104: 66C1E002          shl eax,byte 0x2
-_0001108: 662E03062105      add eax,[_0000421]
-_000110E: 662E034710        add eax,[cs:bx+0x10]
-_0001113: 66678B00          mov eax,[eax]
-_0001117: 66678907          mov [edi],eax
-_000111B: C3                ret
-_000111C: C3                ret
+_0000F96:                   mov bp,[_0001B69]
+                            mov ax,[cs:bp+0x0]
+                            mov bx,[cs:bp+0x2]
+                            cmp ax,0xe43
+                            jnz _0000FB1
+                            mov dword [edi],0x0
+                            ret
+_0000FB1:                   cmp ax,0xe45
+                            jnz word _000106E
+                            fld dword [_0001B65]
+                            fmul dword [_0001B49]
+                            fst dword [_0001B59]
+                            fadd dword [_0001AF9]
+                            fistp word [_0001B55]
+                            fld dword [_0001B65]
+                            fmul dword [_0001B51]
+                            fst dword [_0001B5D]
+                            fadd dword [_0001B01]
+                            fistp word [_0001B57]
+                            mov ah,[_0001B57]
+                            mov al,[_0001B55]
+                            movzx eax,ax
+                            shl eax,byte 0x2
+                            add eax,[_0000421]
+                            add eax,[cs:bx+0x4]
+                            fld dword [_0001B59]
+                            fmul st0
+                            fld dword [_0001B5D]
+                            fmul st0
+                            faddp st1
+                            fld dword [_0001B65]
+                            fmul dword [_0001B4D]
+                            fmul st0
+                            faddp st1
+                            fsqrt
+                            fmul dword [_0001AF5]
+                            fistp dword [_0001B59]
+                            movzx edx,byte [eax]
+                            sub edx,[_0001B59]
+                            jnc _0001040
+                            mov dx,0x0
+_0001040:                   mov [edi],dl
+                            movzx edx,byte [eax+0x1]
+                            sub edx,[_0001B59]
+                            jnc _0001054
+                            mov dx,0x0
+_0001054:                   mov [edi+0x1],dl
+                            movzx edx,byte [eax+0x2]
+                            sub edx,[_0001B59]
+                            jnc _0001069
+                            mov dx,0x0
+_0001069:                   mov [edi+0x2],dl
+                            ret
+_000106E:                   cmp ax,0xe83
+                            jnz _00010C3
+                            fld dword [_0001B65]
+                            fmul dword [_0001B49]
+                            fadd dword [_0001AF9]
+                            fsub dword [cs:bx]
+                            fistp word [_0001B55]
+                            fld dword [_0001B65]
+                            fmul dword [_0001B4D]
+                            fadd dword [_0001AFD]
+                            fistp word [_0001B57]
+                            mov ah,[_0001B57]
+                            mov al,[_0001B55]
+                            movzx eax,ax
+                            shl eax,byte 0x2
+                            add eax,[_0000421]
+                            add eax,[cs:bx+0xc]
+                            mov eax,[eax]
+                            mov [edi],eax
+                            ret
+_00010C3:                   cmp ax,0xf56
+                            jnz _000111C
+                            fld dword [_0001B65]
+                            fmul dword [_0001B49]
+                            fadd dword [_0001AF9]
+                            fsub dword [cs:bx]
+                            fistp word [_0001B55]
+                            fld dword [_0001B65]
+                            fmul dword [_0001B4D]
+                            fadd dword [_0001AFD]
+                            fsub dword [cs:bx+0x4]
+                            fistp word [_0001B57]
+                            mov ah,[_0001B57]
+                            mov al,[_0001B55]
+                            movzx eax,ax
+                            shl eax,byte 0x2
+                            add eax,[_0000421]
+                            add eax,[cs:bx+0x10]
+                            mov eax,[eax]
+                            mov [edi],eax
+                            ret
+_000111C:                   ret
 
 _000111D:                   fld dword [_0001B65]
                             fcomp dword [_0001B61]
@@ -1417,20 +1349,20 @@ _0001165:                   pop si
                             loop _0001157
                             ret
 
-_000116D: B99114            mov cx,0x1491
-_0001170: E8DEFD            call word 0xf51
-_0001173: 51                push cx
-_0001174: 6656              push esi
-_0001176: 6657              push edi
-_0001178: E8C2FF            call word 0x113d
-_000117B: 665F              pop edi
-_000117D: E816FE            call word 0xf96
-_0001180: 665E              pop esi
-_0001182: 59                pop cx
-_0001183: 6683C60C          add esi,byte +0xc
-_0001187: 6683C704          add edi,byte +0x4
-_000118B: E2E3              loop 0x1170
-_000118D: C3                ret
+_000116D:                   mov cx,0x1491
+_0001170:                   call word _0000F51
+                            push cx
+                            push esi
+                            push edi
+                            call word _000113d
+                            pop edi
+                            call word _0000F96
+                            pop esi
+                            pop cx
+                            add esi,byte +0xc
+                            add edi,byte +0x4
+                            loop _0001170
+                            ret
 
 _000118E:                   mov dword [_0001B73],0xffffffc0
                             mov cx,0x41
@@ -1536,12 +1468,10 @@ _00012D1:                   jmp word _0001222
 _00012D4:                   ret
 
 ; probably start of bitmaps and varaibles
-_00012D5: 0000              add [bx+si],al
-_00012D7: 0000              add [bx+si],al
-_00012D9: 0000              add [bx+si],al
-_00012DB: 0000              add [bx+si],al
-_00012DD: 0000              add [bx+si],al
-_00012DF: 0000              add [bx+si],al
+_00012D5: 00000000
+_00012D9: 00000000
+_00012DD: 00000000
+
 _00012E1: 0800              or [bx+si],al
 _00012E3: 45                inc bp
 _00012E4: 0E                push cs
@@ -2456,7 +2386,6 @@ _0001A22: EC                in al,dx
 _0001A23: 07                pop es
 _0001A24: 1BC6              sbb ax,si
 _0001A26: C3                ret
-
 _0001A27: 4C                dec sp
 _0001A28: 1A22              sbb ah,[bp+si]
 _0001A2A: 800410            add byte [si],0x10
